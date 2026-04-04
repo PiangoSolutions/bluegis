@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>BlueGIS | Geo-intelligence for the Blue Economy</title>
+    <meta name="description" content="AI-powered geospatial platform for coastal infrastructure monitoring, marine energy, and climate resilience in the Atlantic Area.">
+    <meta name="keywords" content="InSAR, Blue Economy, Ports, Marine Energy, AI, Copernicus, INTERREG Atlantic">
+    <meta name="author" content="BlueGIS">
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="BlueGIS | Geo-intelligence for the Blue Economy">
+    <meta property="og:description" content="Satellite-based millimetric monitoring with AI for ports, marine energy and coastal resilience.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630?text=BlueGIS">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f0f5 100%);
+            color: #1a2a3a;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header & Navigation */
+        .navbar {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #cbd5e1;
+            padding: 16px 0;
+        }
+
+        .nav-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0b4f6c, #1e88a7);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .logo span {
+            font-size: 1.9rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #1e4a6e;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #0f7b9e;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #0f5c7a, #1c8fad);
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 40px 0 50px;
+            text-align: center;
+        }
+
+        /* Logo container - tamaño reducido y márgenes ajustados */
+        .hero-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .hero-logo img {
+            width: 350px;
+            height: 350px;
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hero-logo img:hover {
+            transform: scale(1.02);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0b4f6c, #1e88a7, #2aa9c9);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #2c475e;
+        }
+
+        /* Sections */
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid #cbd5e180;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #0b4f6c;
+        }
+
+        /* Grid de 3 columnas fijas para centrar y evitar espacios vacíos */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #e2edf2;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+            color: #0f5c7a;
+        }
+
+        /* Team card styles with photo */
+        .team-card {
+            text-align: center;
+            align-items: center;
+        }
+
+        .team-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid #1c8fad;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .team-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .team-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .team-title {
+            color: #1c8fad;
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+        }
+
+        .badge {
+            background: #dbeff5;
+            color: #0b5e7e;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 16px;
+            align-self: flex-start;
+        }
+
+        .tech-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .tech-tag {
+            background: #eef2f5;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+
+        .comparison-table {
+            overflow-x: auto;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            text-align: left;
+            padding: 16px;
+            border-bottom: 1px solid #e2edf2;
+        }
+
+        th {
+            background: #e5f0f5;
+            color: #0b4f6c;
+            font-weight: 600;
+        }
+
+        .check {
+            color: #1e8fad;
+            font-weight: bold;
+        }
+
+        .linkedin-icon {
+            display: inline-block;
+            margin-left: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+
+        .linkedin-icon:hover {
+            opacity: 0.7;
+        }
+
+        .footer {
+            background: #0a2e3f;
+            color: #cbd5e6;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+        }
+
+        .contact-links a {
+            color: #cbd5e6;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .contact-links a:hover {
+            color: white;
+        }
+
+        /* Responsive: tablets y móviles */
+        @media (max-width: 900px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero {
+                padding: 30px 0 40px;
+            }
+            .hero h1 { 
+                font-size: 1.8rem; 
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .section-title { 
+                font-size: 1.6rem; 
+            }
+            .nav-flex { 
+                flex-direction: column; 
+            }
+            .cards {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .hero-logo img {
+                width: 180px;
+                height: 180px;
+            }
+            .team-photo {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-flex">
+            <div class="logo">
+                <span>🌊</span> BlueGIS
+            </div>
+            <div class="nav-links">
+                <a href="#proposal">Proposal</a>
+                <a href="#services">Services</a>
+                <a href="#innovation">Innovation</a>
+                <a href="#market">Market</a>
+                <a href="#team">Team</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero con logo redondo y tamaño reducido -->
+        <div class="hero container">
+            <div class="hero-logo">
+                <!-- Reemplaza 'logo.png' con la ruta real de tu archivo de logo (cuadrado, fondo transparente recomendado) -->
+                <img src="logo.png" alt="BlueGIS Logo">
+            </div>
+            <h1>Geo-intelligence<br>for the Blue Economy</h1>
+            <p>AI-powered platform that transforms complex satellite data into executive decisions for ports, marine energy, and coastal resilience.</p>
+            <a href="#contact" class="btn-primary">🤝 Partner / Invest</a>
+        </div>
+
+        <!-- 1. Proposal -->
+        <section id="proposal">
+            <div class="container">
+                <h2 class="section-title">🔭 What is BlueGIS?</h2>
+                <div class="cards">
+                    <div class="card">
+                        <div class="badge">Problem Solved</div>
+                        <h3>Reactive management & fragmented data</h3>
+                        <p>Ports and offshore wind farms invest millions in blind maintenance. Satellite data exists but is complex and requires scarce, expensive experts.</p>
+                    </div>
+                    <div class="card">
+                        <div class="badge">Our Solution</div>
+                        <h3>Autonomous AI Agent</h3>
+                        <p>A multi-agent system that monitors millimetric deformations, fuses oceanographic data, and generates executive reports with actionable recommendations.</p>
+                    </div>
+                    <div class="card">
+                        <div class="badge">Key Differentiator</div>
+                        <h3>Decisions, not data</h3>
+                        <p>While others sell maps, we deliver answers: "Where to invest? Which asset is at real risk? How to avoid environmental fines?"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Services by Stakeholder (6 actores) -->
+        <section id="services">
+            <div class="container">
+                <h2 class="section-title">🎯 Specialized services by stakeholder</h2>
+                <div class="cards">
+                    <div class="card">
+                        <h3>⚓ 1. Port Authorities</h3>
+                        <p>Deformation monitoring of docks and dikes, early flood alerts from subsidence + sea level rise, and predictive maintenance planning.</p>
+                    </div>
+                    <div class="card">
+                        <h3>💨 2. Marine Energy Operators</h3>
+                        <p>Offshore foundation stability, seabed analysis for submarine cables, and cable route optimization.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🐟 3. Aquaculture & Coastal Fisheries</h3>
+                        <p>Algal bloom alerts, water quality monitoring, and risk assessment for concession areas.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🏖️ 4. Coastal Tourism & Urban Resilience</h3>
+                        <p>Shoreline evolution tracking, beach erosion analysis, and climate adaptation planning for coastal cities.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🏛️ 5. Regulators & Environmental Agencies</h3>
+                        <p>Automated environmental surveillance, change detection for unauthorized works, and SDG-aligned compliance reports.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🔬 6. Research Institutions</h3>
+                        <p>Harmonized time series for scientific validation, access to processed InSAR data, and collaborative R&D projects.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Innovation + Competitive Comparison -->
+        <section id="innovation">
+            <div class="container">
+                <h2 class="section-title">🧠 Innovation: AI Agents + InSAR + Copernicus</h2>
+                <div class="cards">
+                    <div class="card">
+                        <h3>🛰️ Multi-satellite fusion</h3>
+                        <p>Integration of Sentinel-1 (InSAR), Sentinel-3 (oceanic), Sentinel-6 (sea level), plus CMEMS, C3S and CLMS services.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🤖 Multi-agent orchestrator</h3>
+                        <p>LangGraph + DeepSeek self-hosted. Fine-tuning capability with proprietary geospatial data. 100% data sovereignty.</p>
+                    </div>
+                    <div class="card">
+                        <h3>📊 From data to decision</h3>
+                        <p>Executive recommendations in Event – Risk – Plan format, aligned with ISO 31000 and the Disaster Risk Reduction strategy.</p>
+                    </div>
+                </div>
+
+                <h3 style="margin: 48px 0 24px; text-align: center;">Competitive advantage vs alternatives</h3>
+                <div class="comparison-table">
+                    <table>
+                        <thead>
+                            <tr><th>Capability</th><th>BlueGIS</th><th>TRE ALTAMIRA</th><th>SkyGeo</th><th>ICEYE</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Automation</td><td class="check">✅ Full (AI Agent)</td><td>🟡 Medium</td><td>🟡 Medium</td><td>🔴 Low</td></tr>
+                            <tr><td>Executive recommendations</td><td class="check">✅ Yes (ISO 31000)</td><td>❌ No</td><td>❌ No</td><td>❌ No</td></tr>
+                            <tr><td>Stakeholder personalization</td><td class="check">✅ High</td><td>🟡 Low</td><td>🔴 Very low</td><td>🔴 None</td></tr>
+                            <tr><td>Multi-source fusion (InSAR+ocean+climate)</td><td class="check">✅ Native</td><td>❌ Limited</td><td>❌ No</td><td>❌ No</td></tr>
+                            <tr><td>On-premise / data sovereignty</td><td class="check">✅ Yes</td><td>❌ No</td><td>❌ No</td><td>❌ No</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Market (TAM/SAM/SOM) and INTERREG ATLANTIC focus -->
+        <section id="market">
+            <div class="container">
+                <h2 class="section-title">📈 Market potential & geographic focus</h2>
+                <div class="cards">
+                    <div class="card">
+                        <h3>🌍 TAM</h3>
+                        <p><strong>€9.8B / year</strong><br>Global geospatial monitoring market for the blue economy.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🌊 SAM (Western Europe)</h3>
+                        <p><strong>€1.4B / year</strong><br>330 ports + offshore wind energy + regulators.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🎯 SOM (Year 3-5)</h3>
+                        <p><strong>€1.2 – 1.8M / year</strong><br>Realistic penetration in Spain, Portugal, France and Ireland (INTERREG Atlantic area).</p>
+                    </div>
+                </div>
+                <div style="background: #e5f0f5; border-radius: 24px; padding: 24px; margin-top: 24px; text-align: center; max-width: 900px; margin-left: auto; margin-right: auto;">
+                    <p style="font-size: 1.1rem;"><strong>📍 Priority focus: Atlantic Area</strong><br>Major ports in Spain (Valencia, Barcelona, Bilbao, Algeciras), Portugal (Lisbon, Leixões), France (Nantes-Saint Nazaire, Bordeaux) and Ireland (Dublin, Cork). Aligned with INTERREG funds and the European Green Deal.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Team with photos and LinkedIn links -->
+        <section id="team">
+            <div class="container">
+                <h2 class="section-title">🧑‍🤝‍🧑 Founding team</h2>
+                <div class="cards">
+                    <div class="card team-card">
+                        <img src="images/rasel.png" alt="Rasel Agüero Fernández" class="team-photo" onerror="this.src='https://via.placeholder.com/150?text=Rasel'">
+                        <h3>Rasel Agüero Fernández 
+                            <a href="https://www.linkedin.com/in/rasel-ag%C3%BCero-fern%C3%A1ndez-28a506200/" target="_blank" class="linkedin-icon">🔗</a>
+                        </h3>
+                        <div class="team-title">InSAR & Remote Sensing Specialist</div>
+                        <p>Computer engineer with 7 years in geospatial companies, master's degree in satellite image processing. Ensures accurate deformation monitoring and scientific validation.</p>
+                    </div>
+                    <div class="card team-card">
+                        <img src="images/eduardo-escofet.jpg" alt="Eduardo Luis Escofet Batista" class="team-photo" onerror="this.src='https://via.placeholder.com/150?text=Eduardo'">
+                        <h3>Eduardo Luis Escofet Batista 
+                            <a href="https://www.linkedin.com/in/eduardoescofet" target="_blank" class="linkedin-icon">🔗</a>
+                        </h3>
+                        <div class="team-title">AI & Machine Learning Expert</div>
+                        <p>Master's in Computer Science, expert in predictive models and anomaly detection in large-scale complex data.</p>
+                    </div>
+                    <div class="card team-card">
+                        <img src="images/rosabel-medina.jpg" alt="Rosabel Francisca Medina Sarmiento" class="team-photo" onerror="this.src='https://via.placeholder.com/150?text=Rosabel'">
+                        <h3>Rosabel Francisca Medina Sarmiento 
+                            <a href="https://www.linkedin.com/in/rosabel-medina-sarmiento-733595191/" target="_blank" class="linkedin-icon">🔗</a>
+                        </h3>
+                        <div class="team-title">Human-Centered Design & Legal</div>
+                        <p>Law degree and master's in Social Sciences. Specialist in ethical compliance, inclusion and community engagement.</p>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: #4a627a;">※ Replace the LinkedIn URLs and photo paths with the actual profiles before publishing</p>
+            </div>
+        </section>
+
+        <!-- 6. Roadmap and contact -->
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title">🚀 Next milestones & partnerships</h2>
+                <div class="cards">
+                    <div class="card">
+                        <h3>✅ Milestone 1</h3>
+                        <p>Operational MVP: port deformation monitoring with dashboard and alerts.</p>
+                    </div>
+                    <div class="card">
+                        <h3>✅ Milestone 2</h3>
+                        <p>First 3 paying pilot clients (one port + marine energy operators).</p>
+                    </div>
+                    <div class="card">
+                        <h3>🤝 We are looking for</h3>
+                        <p>Investors, public funding (INTERREG, Horizon Europe), and technology partners (GIS integrators, marine energy companies).</p>
+                        <div class="tech-grid" style="margin-top: 12px;">
+                            <span class="tech-tag">Seed investment</span>
+                            <span class="tech-tag">R&D projects</span>
+                            <span class="tech-tag">Port pilots</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 48px;">
+                    <a href="piangosolutions@gmail.com" class="btn-primary" style="font-size: 1.1rem;">📧 piangosolutions@gmail.com</a>
+                    <p style="margin-top: 24px;">🌊 Spain · Portugal · France · Ireland — INTERREG Atlantic Area</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>BlueGIS — Geo-intelligence for the Blue Economy</p>
+            <div class="contact-links">
+                <a href="mailto:piangosolutions@gmail.com">piangosolutions@gmail.com</a>
+            </div>
+            <p style="font-size: 0.8rem;">&copy; 2026 BlueGIS. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
