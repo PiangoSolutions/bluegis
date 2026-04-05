@@ -55,13 +55,17 @@
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #0b4f6c, #1e88a7);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.nav-icon {
+			height: 32px;
+			width: 32px;
+			border-radius: 50%;
+			object-fit: cover;
+		}
 
         .logo span {
             font-size: 1.9rem;
@@ -367,7 +371,7 @@
     <nav class="navbar">
         <div class="container nav-flex">
             <div class="logo">
-                <img src="logo.png" alt="BlueGIS" style="height: 40px; width: auto; display: block;"> BlueGIS
+                <img src="logo.png" alt="BlueGIS" class="nav-icon"> BlueGIS
             </div>
             <div class="nav-links">
                 <a href="#proposal">Proposal</a>
